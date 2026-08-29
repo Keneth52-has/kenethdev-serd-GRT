@@ -936,7 +936,7 @@ export default function SHGDocumentationWizard({ initialDraftId = null, onFinish
                   className="px-8 py-3.5 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold rounded-xl text-sm shadow-xl shadow-emerald-950/80 transition-all inline-flex items-center gap-2"
                 >
                   <Camera className="w-5 h-5" />
-                  <span>📷 Open Camera & Capture Photo</span>
+                  <span> Open Camera & Capture Photo</span>
                 </button>
               </div>
             )}
