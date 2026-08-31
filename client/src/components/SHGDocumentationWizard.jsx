@@ -179,8 +179,8 @@ export default function SHGDocumentationWizard({ initialDraftId = null, onFinish
     setActiveCameraTarget(null);
     showToast(
       photoRecord.photo_type === 'GROUP'
-        ? '✅ Group photograph verified and GPS stamped!'
-        : `✅ Member ${photoRecord.member_number} photo verified and GPS stamped!`
+        ? 'Group photograph verified and GPS stamped!'
+        : `Member ${photoRecord.member_number} photo verified and GPS stamped!`
     );
 
     autoSaveDraft();
@@ -237,7 +237,7 @@ export default function SHGDocumentationWizard({ initialDraftId = null, onFinish
 
   const handleManualSaveDraft = async () => {
     await autoSaveDraft('draft');
-    showToast('💾 GRT Form draft saved successfully!');
+    showToast('GRT Form draft saved successfully!');
   };
 
   // Member photo completion count
@@ -386,7 +386,7 @@ export default function SHGDocumentationWizard({ initialDraftId = null, onFinish
       status: 'submitted'
     };
     await generateSHGPdfReport(record, { download: true });
-    showToast('📄 Official SERD Foundation GRT report downloaded!');
+    showToast('Official SERD Foundation GRT report downloaded!');
   };
 
   return (

@@ -134,7 +134,7 @@ export default function Login() {
           </form>
 
           {/* Quick Demo Login Selectors */}
-          <div className="mt-7 pt-6 border-t border-slate-700/60">
+          <div className=" hidden mt-7 pt-6 border-t border-slate-700/60">
             <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2.5 text-center">
               Quick Demo Login
             </p>
