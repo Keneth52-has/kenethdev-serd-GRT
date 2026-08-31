@@ -9,7 +9,7 @@ const adminRoutes = require('./routes/admin');
 const { uploadsDir } = require('./utils/photoStorage');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Enable CORS for frontend
 app.use(cors({

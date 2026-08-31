@@ -29,7 +29,7 @@ async function runTests() {
   console.log('🧪 STARTING AUTOMATED END-TO-END VERIFICATION...\n');
 
   // Test 1: Healthcheck
-  console.log('1️⃣ Testing /api/health...');
+  console.log('1️Testing /api/health...');
   const health = await makeRequest({
     hostname: 'localhost',
     port: 5000,

@@ -924,6 +924,16 @@
   ],
   "audit_logs": [
     {
+      "id": 42,
+      "employee_id": "ADMIN001",
+      "employee_name": "System Administrator",
+      "action": "USER_LOGIN",
+      "record_id": "ADMIN001",
+      "details": "Successful login to portal",
+      "ip_address": "::1",
+      "created_at": "2026-08-31T05:10:00.825Z"
+    },
+    {
       "id": 41,
       "employee_id": "ADMIN001",
       "employee_name": "System Administrator",
@@ -1339,7 +1349,7 @@
     "shgIdCounter": 6,
     "memberIdCounter": 271,
     "photoIdCounter": 147,
-    "auditIdCounter": 42,
+    "auditIdCounter": 43,
     "reportSequence": 103
   }
 }

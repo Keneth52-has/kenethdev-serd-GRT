@@ -112,34 +112,101 @@ export async function generateSHGPdfReport(shg, options = { download: true }) {
   const members = shg.members || [];
   const photos = shg.photos || [];
 
-  const memberRows = [];
-  for (let i = 1; i <= 10; i++) {
-    const member = members.find(m => m.member_number === i) || {};
-    const photo = photos.find(p => p.photo_type === 'MEMBER' && p.member_number === i);
-    const gpsStatus = photo && photo.latitude ? `✅ Lat: ${Number(photo.latitude).toFixed(4)}, Lon: ${Number(photo.longitude).toFixed(4)}` : '⚠️ Pending';
+  // const memberRows = [];
+  // for (let i = 1; i <= 10; i++) {
+  //   const member = members.find(m => m.member_number === i) || {};
+  //   const photo = photos.find(p => p.photo_type === 'MEMBER' && p.member_number === i);
+  //   const gpsStatus = photo && photo.latitude ? `✅ Lat: ${Number(photo.latitude).toFixed(4)}, Lon: ${Number(photo.longitude).toFixed(4)}` : '⚠️ Pending';
     
-    memberRows.push([
-      String(i).padStart(2, '0'),
-      member.member_name || `Member ${i}`,
-      member.member_id || '-',
-      member.loan_amount ? `₹ ${Number(member.loan_amount).toLocaleString('en-IN')}` : '-',
-      member.mobile_number || '-',
-      photo ? '✅ Stamped Photo' : '❌ No Photo',
-      gpsStatus
-    ]);
-  }
+  //   memberRows.push([
+  //     String(i).padStart(2, '0'),
+  //     member.member_name || `Member ${i}`,
+  //     member.member_id || '-',
+  //     member.loan_amount ? `₹ ${Number(member.loan_amount).toLocaleString('en-IN')}` : '-',
+  //     member.mobile_number || '-',
+  //     photo ? '✅ Stamped Photo' : '❌ No Photo',
+  //     gpsStatus
+  //   ]);
+  // }
 
-  autoTable(doc, {
-    startY: tableY,
-    theme: 'striped',
-    head: [['#', 'Member Name', 'Member / Cust ID', 'Loan Share', 'Mobile', 'Photo Status', 'GPS Coordinates']],
-    body: memberRows,
-    headStyles: { fillColor: darkNavy, textColor: 255, fontSize: 8.5, fontStyle: 'bold' },
-    bodyStyles: { fontSize: 8, textColor: darkNavy, cellPadding: 2 },
-    alternateRowStyles: { fillColor: [241, 245, 249] },
-    margin: { left: 14, right: 14 }
-  });
+  // autoTable(doc, {
+  //   startY: tableY,
+  //   theme: 'striped',
+  //   head: [['#', 'Member Name', 'Member / Cust ID', 'Loan Share', 'Mobile', 'Photo Status', 'GPS Coordinates']],
+  //   body: memberRows,
+  //   headStyles: { fillColor: darkNavy, textColor: 255, fontSize: 8.5, fontStyle: 'bold' },
+  //   bodyStyles: { fontSize: 8, textColor: darkNavy, cellPadding: 2 },
+  //   alternateRowStyles: { fillColor: [241, 245, 249] },
+  //   margin: { left: 14, right: 14 }
+  // });
+// 10-Member Summary Table
+// GPS coordinates are intentionally not shown in the PDF.
+// The reverse-geocoded address saved in photo.address is shown as Location.
+const memberRows = [];
 
+for (let i = 1; i <= 10; i++) {
+  const member = members.find((m) => m.member_number === i) || {};
+  const photo = photos.find(
+    (p) => p.photo_type === 'MEMBER' && p.member_number === i
+  );
+
+  const location = photo?.address?.trim()
+    ? photo.address.trim()
+    : photo
+      ? `${shg.village || 'Location'}${shg.taluk ? `, ${shg.taluk}` : ''}`
+      : '⚠️ Location Pending';
+
+  memberRows.push([
+    String(i).padStart(2, '0'),
+    member.member_name || `Member ${i}`,
+    member.member_id || '-',
+    member.loan_amount
+      ? `₹ ${Number(member.loan_amount).toLocaleString('en-IN')}`
+      : '-',
+    member.mobile_number || '-',
+    photo ? '✅ Stamped Photo' : '❌ No Photo',
+    location,
+  ]);
+}
+
+autoTable(doc, {
+  startY: tableY,
+  theme: 'striped',
+  head: [[
+    '#',
+    'Member Name',
+    'Member / Cust ID',
+    'Loan Share',
+    'Mobile',
+    'Photo Status',
+    'Location',
+  ]],
+  body: memberRows,
+  headStyles: {
+    fillColor: darkNavy,
+    textColor: 255,
+    fontSize: 8,
+    fontStyle: 'bold',
+  },
+  bodyStyles: {
+    fontSize: 7.3,
+    textColor: darkNavy,
+    cellPadding: 1.7,
+    overflow: 'linebreak',
+    valign: 'middle',
+  },
+  alternateRowStyles: { fillColor: [241, 245, 249] },
+  columnStyles: {
+    0: { cellWidth: 7, halign: 'center' },
+    1: { cellWidth: 25 },
+    2: { cellWidth: 22 },
+    3: { cellWidth: 18 },
+    4: { cellWidth: 19 },
+    5: { cellWidth: 22 },
+    6: { cellWidth: 56 },
+  },
+  margin: { left: 14, right: 14 },
+});
   // Remarks if any
   if (shg.remarks) {
     const remY = doc.lastAutoTable.finalY + 4;
